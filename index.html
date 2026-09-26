@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ledger Pro — Finanzas personales</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
@@ -16,14 +16,30 @@
       <p class="eyebrow">Finanzas personales · COP</p>
       <h1>Ledger Pro</h1>
     </div>
-    <button type="button" id="export-csv" class="btn outline">Exportar CSV</button>
+    <div class="header-tools">
+      <button type="button" id="theme-toggle" class="btn outline" aria-label="Cambiar tema">Tema</button>
+      <button type="button" id="import-csv" class="btn outline">Importar CSV</button>
+      <button type="button" id="export-csv" class="btn outline">Exportar CSV</button>
+      <button type="button" id="print-report" class="btn outline">Imprimir / PDF</button>
+      <input type="file" id="csv-file" accept=".csv,text/csv" hidden />
+    </div>
   </header>
 
-  <main class="main">
-    <section class="summary">
+  <main class="main" id="report-root">
+    <section class="month-nav animate-in">
+      <button type="button" class="btn icon-nav" id="month-prev" aria-label="Mes anterior">‹</button>
+      <div class="month-label">
+        <input type="month" id="focus-month" aria-label="Mes en foco" />
+        <span id="month-display"></span>
+      </div>
+      <button type="button" class="btn icon-nav" id="month-next" aria-label="Mes siguiente">›</button>
+    </section>
+
+    <section class="summary animate-in">
       <article class="stat">
-        <span class="label">Balance</span>
+        <span class="label">Balance (mes)</span>
         <strong id="stat-balance">$0</strong>
+        <canvas id="balance-spark" class="spark" height="36"></canvas>
       </article>
       <article class="stat income">
         <span class="label">Ingresos</span>
@@ -32,6 +48,11 @@
       <article class="stat expense">
         <span class="label">Gastos</span>
         <strong id="stat-expense">$0</strong>
+      </article>
+      <article class="stat forecast">
+        <span class="label">Proyección fin de mes</span>
+        <strong id="stat-forecast">$0</strong>
+        <p class="stat-note" id="forecast-note">Basado en promedio diario</p>
       </article>
     </section>
 
@@ -62,18 +83,36 @@
             Descripción
             <input type="text" name="description" maxlength="100" placeholder="Opcional" />
           </label>
+          <label class="full recurring-row">
+            <input type="checkbox" name="recurring" id="recurring-check" />
+            <span>Transacción recurrente (mensual)</span>
+          </label>
           <button type="submit" class="btn primary full">Guardar</button>
         </form>
       </section>
 
       <section class="panel chart-panel">
         <div class="chart-head">
-          <h2>Flujo mensual</h2>
-          <input type="month" id="chart-month" />
+          <h2>Comparación mensual</h2>
         </div>
-        <canvas id="month-chart" height="220"></canvas>
+        <canvas id="compare-chart" height="200"></canvas>
       </section>
     </div>
+
+    <section class="panel animate-in">
+      <div class="chart-head">
+        <h2>Flujo por categoría</h2>
+      </div>
+      <canvas id="month-chart" height="220"></canvas>
+    </section>
+
+    <section class="panel budgets-panel animate-in">
+      <div class="chart-head">
+        <h2>Metas de presupuesto</h2>
+        <button type="button" id="save-budgets" class="btn primary small">Guardar metas</button>
+      </div>
+      <div id="budget-list" class="budget-list"></div>
+    </section>
 
     <section class="panel">
       <div class="list-head">
@@ -95,10 +134,12 @@
           <tbody id="entries-body"></tbody>
         </table>
       </div>
+      <p id="empty-entries" class="empty-block" hidden>Sin movimientos este mes. Registra tu primer ingreso o gasto.</p>
     </section>
   </main>
 
   <footer class="footer">Datos guardados en localStorage en este dispositivo.</footer>
+  <div id="toast" class="toast" hidden></div>
   <script src="app.js"></script>
 </body>
 </html>
