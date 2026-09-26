@@ -1,0 +1,232 @@
+:root {
+  --charcoal: #1a2421;
+  --green-deep: #0d3b2e;
+  --green-mid: #1f6b52;
+  --green-soft: #3d9970;
+  --cream: #f6f4ef;
+  --border: rgba(13, 59, 46, 0.15);
+  --income: #2a8f6a;
+  --expense: #b54a4a;
+  --font-serif: "Libre Baskerville", Georgia, serif;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: linear-gradient(180deg, #eef2ef 0%, var(--cream) 40%, #e8ece9 100%);
+  color: var(--charcoal);
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 2rem clamp(1rem, 4vw, 2.5rem) 1rem;
+  border-bottom: 3px solid var(--green-deep);
+  background: var(--charcoal);
+  color: var(--cream);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.header h1 {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.75rem clamp(1rem, 4vw, 2rem) 3rem;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .summary { grid-template-columns: 1fr; }
+}
+
+.stat {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 24px rgba(26, 36, 33, 0.06);
+}
+
+.stat .label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6b7a74;
+  margin-bottom: 0.35rem;
+}
+
+.stat strong {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.stat.income strong { color: var(--income); }
+.stat.expense strong { color: var(--expense); }
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.35rem;
+  box-shadow: 0 8px 24px rgba(26, 36, 33, 0.05);
+}
+
+.panel h2 {
+  margin: 0 0 1rem;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--green-deep);
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.form .full { grid-column: 1 / -1; }
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #5c6b65;
+}
+
+input, select {
+  font-family: var(--font-sans);
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.btn {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: var(--green-deep);
+  color: #fff;
+}
+
+.btn.primary:hover { background: var(--green-mid); }
+
+.btn.outline {
+  background: transparent;
+  border: 1px solid rgba(246, 244, 239, 0.4);
+  color: var(--cream);
+}
+
+.btn.outline:hover { border-color: var(--cream); }
+
+.btn.icon {
+  background: none;
+  border: none;
+  color: var(--expense);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.chart-head, .list-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.chart-head h2, .list-head h2 { margin: 0; }
+
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th, td {
+  padding: 0.65rem 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b7a74;
+}
+
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+}
+
+.tag.income { background: #e6f4ee; color: var(--income); }
+.tag.expense { background: #fceaea; color: var(--expense); }
+
+.footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.85rem;
+  color: #6b7a74;
+}
+
+.empty-row td {
+  text-align: center;
+  color: #6b7a74;
+  padding: 2rem;
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ledger Pro — Finanzas personales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div>
+      <p class="eyebrow">Finanzas personales · COP</p>
+      <h1>Ledger Pro</h1>
+    </div>
+    <button type="button" id="export-csv" class="btn outline">Exportar CSV</button>
+  </header>
+
+  <main class="main">
+    <section class="summary">
+      <article class="stat">
+        <span class="label">Balance</span>
+        <strong id="stat-balance">$0</strong>
+      </article>
+      <article class="stat income">
+        <span class="label">Ingresos</span>
+        <strong id="stat-income">$0</strong>
+      </article>
+      <article class="stat expense">
+        <span class="label">Gastos</span>
+        <strong id="stat-expense">$0</strong>
+      </article>
+    </section>
+
+    <div class="grid">
+      <section class="panel">
+        <h2>Registrar movimiento</h2>
+        <form id="entry-form" class="form">
+          <label>
+            Tipo
+            <select name="type" required>
+              <option value="income">Ingreso</option>
+              <option value="expense">Gasto</option>
+            </select>
+          </label>
+          <label>
+            Monto (COP)
+            <input type="number" name="amount" min="1" step="1" required placeholder="150000" />
+          </label>
+          <label>
+            Categoría
+            <select name="category" id="category-select" required></select>
+          </label>
+          <label>
+            Fecha
+            <input type="date" name="date" required />
+          </label>
+          <label class="full">
+            Descripción
+            <input type="text" name="description" maxlength="100" placeholder="Opcional" />
+          </label>
+          <button type="submit" class="btn primary full">Guardar</button>
+        </form>
+      </section>
+
+      <section class="panel chart-panel">
+        <div class="chart-head">
+          <h2>Flujo mensual</h2>
+          <input type="month" id="chart-month" />
+        </div>
+        <canvas id="month-chart" height="220"></canvas>
+      </section>
+    </div>
+
+    <section class="panel">
+      <div class="list-head">
+        <h2>Movimientos</h2>
+        <input type="search" id="search" placeholder="Buscar…" />
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Tipo</th>
+              <th>Categoría</th>
+              <th>Descripción</th>
+              <th class="num">Monto</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="entries-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Datos guardados en localStorage en este dispositivo.</footer>
+  <script src="app.js"></script>
+</body>
+</html>
